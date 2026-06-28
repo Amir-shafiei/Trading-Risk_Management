@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تنظیمات | TradeRisk</title>
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/settings.css">
+</head>
+<body>
+<div class="layout">
+    <button class="hamburger" id="hamburgerBtn"><i class="ti ti-menu-2"></i></button>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">TRADE<span>RISK</span></div>
+        <nav class="nav">
+            <a href="/dashboard" class="nav-item"><i class="ti ti-layout-dashboard"></i>داشبورد</a>
+            <a href="/trades" class="nav-item"><i class="ti ti-chart-candle"></i>تریدها</a>
+            <a href="/portfolio" class="nav-item"><i class="ti ti-wallet"></i>پورتفولیو</a>
+            <a href="/journal" class="nav-item"><i class="ti ti-notebook"></i>ژورنال</a>
+            <a href="/badges" class="nav-item"><i class="ti ti-medal"></i>نشان‌ها</a>
+            <a href="/news" class="nav-item"><i class="ti ti-calendar-event"></i>تقویم اقتصادی</a>
+            <a href="/settings" class="nav-item active"><i class="ti ti-settings"></i>تنظیمات</a>
+        </nav>
+        <button class="logout-btn" id="logoutBtn"><i class="ti ti-logout"></i>خروج</button>
+    </aside>
+
+    <main class="main">
+        <div class="topbar">
+            <h1 class="page-title">تنظیمات</h1>
+        </div>
+
+        <div class="settings-grid">
+            <div class="card">
+                <div class="card-title"><i class="ti ti-lock"></i>تغییر رمز عبور</div>
+                <div class="form-group"><label>رمز عبور فعلی</label><input type="password" id="oldPassword" placeholder="رمز فعلی"></div>
+                <div class="form-group"><label>رمز عبور جدید</label><input type="password" id="newPassword" placeholder="حداقل ۶ کاراکتر"></div>
+                <div class="form-group"><label>تکرار رمز عبور جدید</label><input type="password" id="confirmPassword" placeholder="تکرار رمز جدید"></div>
+                <button class="btn btn-gold" id="changePasswordBtn" style="width:100%">تغییر رمز</button>
+            </div>
+
+            <div class="card">
+                <div class="card-title"><i class="ti ti-palette"></i>ظاهر</div>
+                <div class="theme-toggle">
+                    <label style="font-size:12px;color:var(--text-secondary)">حالت تم</label>
+                    <div class="toggle-buttons">
+                        <button class="toggle-btn active" data-theme="dark" id="darkBtn"><i class="ti ti-moon"></i>تاریک</button>
+                        <button class="toggle-btn" data-theme="light" id="lightBtn"><i class="ti ti-sun"></i>روشن</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title"><i class="ti ti-shield"></i>محدودیت‌های ریسک</div>
+                <div class="form-group"><label>پورتفولیو</label><select id="riskPortfolio"></select></div>
+                <div class="form-group">
+                    <label>حداکثر ضرر روزانه ($)</label>
+                    <input type="number" id="dailyLossLimit" placeholder="0 = بدون محدودیت" min="0" step="10">
+                </div>
+                <div class="form-group">
+                    <label>حداکثر پوزیشن باز</label>
+                    <input type="number" id="maxOpenTrades" placeholder="0 = بدون محدودیت" min="0" step="1">
+                </div>
+                <button class="btn btn-gold" id="saveRiskLimits" style="width:100%">ذخیره محدودیت‌ها</button>
+            </div>
+
+            <div class="card" style="grid-column:1/-1">
+                <div class="card-title"><i class="ti ti-checkbox"></i>چک‌لیست پیش از ترید</div>
+                <p style="font-size:12px;color:var(--text-secondary);margin-bottom:16px">آیتم‌های زیر هر بار که ترید جدید باز می‌کنید به صورت خودکار نمایش داده می‌شوند. آن‌ها را یک بار تنظیم کنید.</p>
+                <div id="checklistDefaultsList"></div>
+                <div style="display:flex;gap:8px;margin-top:12px">
+                    <input type="text" id="newChecklistDefault" placeholder="آیتم جدید اضافه کنید..." style="flex:1">
+                    <button class="btn btn-gold btn-sm" id="addChecklistDefault"><i class="ti ti-plus"></i>افزودن</button>
+                </div>
+                <button class="btn btn-gold" id="saveChecklistDefaults" style="width:100%;margin-top:12px">ذخیره چک‌لیست</button>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script src="/js/utils.js"></script>
+<script src="/js/api.js"></script>
+<script src="/js/settings.js"></script>
+</body>
+</html>

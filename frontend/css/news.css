@@ -1,0 +1,195 @@
+/* Economic Calendar styles */
+
+/* Day navigation */
+.day-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 20px; gap: 12px;
+}
+.day-nav-btn {
+    padding: 8px 16px; border-radius: 10px; border: 0.5px solid var(--border-color);
+    background: var(--bg-card); color: var(--text-secondary); font-size: 13px;
+    font-family: 'Vazirmatn', sans-serif; cursor: pointer;
+    transition: all 0.2s; display: flex; align-items: center; gap: 6px;
+}
+.day-nav-btn:hover { border-color: var(--gold); color: var(--gold); }
+.day-nav-center { text-align: center; flex: 1; }
+.day-nav-date {
+    font-size: 18px; font-weight: 700; color: var(--text-primary);
+    direction: ltr; display: inline-block;
+}
+.day-nav-weekday {
+    font-size: 12px; color: var(--text-secondary); margin-top: 2px;
+}
+.day-nav-today {
+    margin-top: 6px; padding: 4px 14px; border-radius: 6px;
+    background: var(--gold-bg); border: 0.5px solid var(--gold-border);
+    color: var(--gold); font-size: 11px; font-weight: 600;
+    font-family: 'Vazirmatn', sans-serif; cursor: pointer; transition: all 0.2s;
+}
+.day-nav-today:hover { background: var(--gold); color: #000; }
+
+/* Live indicator */
+.live-dot {
+    width: 8px; height: 8px; border-radius: 50%; background: var(--green);
+    animation: pulse 2s infinite;
+}
+
+/* Legend */
+.calendar-legend {
+    display: flex; gap: 16px; margin-bottom: 12px; align-items: center;
+}
+.legend-item {
+    display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-secondary);
+}
+.impact-dot {
+    width: 10px; height: 10px; border-radius: 50%; display: inline-block;
+}
+.impact-dot.high { background: #EF4444; box-shadow: 0 0 6px rgba(239, 68, 68, 0.4); }
+.impact-dot.medium { background: #F59E0B; box-shadow: 0 0 6px rgba(245, 158, 11, 0.4); }
+.impact-dot.low { background: #22C55E; box-shadow: 0 0 6px rgba(34, 197, 94, 0.4); }
+
+/* Filters */
+.calendar-filters {
+    display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; align-items: center;
+}
+.filter-chip {
+    padding: 6px 14px; border-radius: 20px; border: 0.5px solid var(--border-color);
+    background: transparent; color: var(--text-secondary); font-size: 12px;
+    font-family: 'Vazirmatn', sans-serif; cursor: pointer;
+    transition: all 0.2s; display: flex; align-items: center; gap: 6px;
+}
+.filter-chip:hover { border-color: var(--gold); color: var(--gold); }
+.filter-chip.active {
+    background: var(--gold); color: #000; border-color: var(--gold); font-weight: 600;
+}
+.currency-filters { display: flex; gap: 4px; margin-right: auto; }
+.currency-btn {
+    padding: 4px 10px; border-radius: 6px; border: 0.5px solid var(--border-color);
+    background: transparent; color: var(--text-muted); font-size: 11px;
+    font-family: 'Vazirmatn', sans-serif; cursor: pointer; font-weight: 600;
+    transition: all 0.2s; direction: ltr;
+}
+.currency-btn:hover { border-color: var(--gold); color: var(--gold); }
+.currency-btn.active { background: var(--gold-bg); color: var(--gold); border-color: var(--gold-border); }
+
+/* Calendar table */
+.calendar-table { min-width: 600px; }
+.calendar-table th {
+    font-size: 11px; font-weight: 600; color: var(--text-secondary);
+    text-align: right; padding: 10px 12px; border-bottom: 1px solid var(--divider);
+    text-transform: uppercase; letter-spacing: 0.5px;
+}
+.calendar-table td {
+    font-size: 13px; padding: 10px 12px; border-bottom: 0.5px solid var(--divider);
+    color: var(--text-primary); vertical-align: middle;
+}
+.calendar-table tr { transition: background 0.15s; }
+.calendar-table tr:hover td { background: var(--row-hover); }
+.calendar-table tr.today td { background: var(--gold-bg); }
+
+/* Currency badges */
+.event-currency {
+    font-weight: 700; font-size: 12px; direction: ltr; display: inline-block;
+    padding: 2px 8px; border-radius: 4px; min-width: 36px; text-align: center;
+}
+.event-currency.USD { background: #3B82F622; color: #3B82F6; }
+.event-currency.EUR { background: #8B5CF622; color: #8B5CF6; }
+.event-currency.GBP { background: #EC489922; color: #EC4899; }
+.event-currency.JPY { background: #F59E0B22; color: #F59E0B; }
+.event-currency.AUD { background: #22C55E22; color: #22C55E; }
+.event-currency.CAD { background: #EF444422; color: #EF4444; }
+.event-currency.CHF { background: #06B6D422; color: #06B6D4; }
+.event-currency.CNY { background: #DC262622; color: #DC2626; }
+.event-currency.NZD { background: #14B8A622; color: #14B8A6; }
+
+/* Impact badges */
+.impact-badge {
+    font-size: 10px; padding: 3px 8px; border-radius: 4px; font-weight: 600;
+    display: inline-flex; align-items: center; gap: 4px;
+}
+.impact-badge.high { background: #EF444422; color: #EF4444; }
+.impact-badge.medium { background: #F59E0B22; color: #F59E0B; }
+.impact-badge.low { background: #22C55E22; color: #22C55E; }
+
+/* Event name */
+.event-name-cell { cursor: pointer; }
+.event-name-cell:hover .event-name-en { color: var(--gold); }
+.event-name-en {
+    font-weight: 500; font-size: 13px; direction: ltr; text-align: left;
+    display: block; transition: color 0.2s;
+}
+.event-name-fa {
+    font-size: 11px; color: var(--text-muted); margin-top: 2px;
+}
+
+/* Values */
+.event-time { direction: ltr; font-variant-numeric: tabular-nums; }
+.event-value { direction: ltr; font-variant-numeric: tabular-nums; font-weight: 500; }
+.event-actual { font-weight: 700; }
+.event-actual.positive { color: var(--green); }
+.event-actual.negative { color: var(--red); }
+
+/* No events */
+.no-events {
+    text-align: center; padding: 40px 20px; color: var(--text-muted);
+}
+.no-events-icon { font-size: 40px; margin-bottom: 12px; opacity: 0.3; }
+
+/* Event detail modal */
+.event-detail-header {
+    display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;
+}
+.event-detail-title { font-size: 17px; font-weight: 700; color: var(--gold); }
+.event-detail-title-fa { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
+.event-detail-meta {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px;
+}
+.event-detail-box {
+    background: var(--bg-input); border-radius: 10px; padding: 12px; text-align: center;
+}
+.event-detail-box-label { font-size: 10px; color: var(--text-muted); margin-bottom: 4px; }
+.event-detail-box-value { font-size: 16px; font-weight: 700; direction: ltr; }
+.event-detail-desc {
+    background: var(--bg-input); border-radius: 10px; padding: 16px;
+    font-size: 13px; line-height: 1.8; color: var(--text-secondary);
+    border-right: 3px solid var(--gold-border);
+}
+.event-detail-desc strong { color: var(--gold); }
+
+@media (max-width: 768px) {
+    .day-nav { flex-direction: column; gap: 8px; }
+    .day-nav-btn { width: 100%; justify-content: center; padding: 10px; }
+    .day-nav-date { font-size: 16px; }
+    .calendar-filters { gap: 6px; }
+    .filter-chip { padding: 5px 10px; font-size: 11px; }
+    .currency-filters { flex-wrap: wrap; gap: 3px; }
+    .currency-btn { padding: 3px 7px; font-size: 10px; }
+    .event-detail-meta { grid-template-columns: 1fr; }
+
+    /* Convert table to card layout */
+    .table-wrap table { min-width: 0; }
+    .table-wrap thead { display: none; }
+    .table-wrap tbody tr {
+        display: flex; flex-direction: column; gap: 6px;
+        padding: 12px; margin-bottom: 8px;
+        background: var(--bg-card); border: 0.5px solid var(--border-color);
+        border-radius: 10px; transition: all 0.2s;
+    }
+    .table-wrap tbody tr.today { border-color: var(--gold); box-shadow: var(--glow-gold); }
+    .table-wrap tbody td {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 2px 0; border-bottom: none; font-size: 12px;
+    }
+    .table-wrap tbody td::before {
+        content: attr(data-label); font-size: 10px; color: var(--text-muted); font-weight: 500;
+    }
+    .table-wrap tbody td:last-child { border-bottom: none; }
+    .event-name-cell { flex-direction: column; align-items: flex-start !important; }
+    .event-name-en { font-size: 12px; }
+    .event-name-fa { font-size: 10px; }
+}
+@media (max-width: 480px) {
+    .topbar { flex-direction: column; gap: 10px; align-items: flex-start; }
+    .topbar .btn { width: 100%; justify-content: center; }
+    .day-nav-date { font-size: 14px; }
+}

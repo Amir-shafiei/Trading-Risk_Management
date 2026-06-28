@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تریدها | TradeRisk</title>
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/trades.css">
+</head>
+<body>
+<div class="layout">
+    <button class="hamburger" id="hamburgerBtn"><i class="ti ti-menu-2"></i></button>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">TRADE<span>RISK</span></div>
+        <nav class="nav">
+            <a href="/dashboard" class="nav-item"><i class="ti ti-layout-dashboard"></i>داشبورد</a>
+            <a href="/trades" class="nav-item active"><i class="ti ti-chart-candle"></i>تریدها</a>
+            <a href="/portfolio" class="nav-item"><i class="ti ti-wallet"></i>پورتفولیو</a>
+            <a href="/journal" class="nav-item"><i class="ti ti-notebook"></i>ژورنال</a>
+            <a href="/badges" class="nav-item"><i class="ti ti-medal"></i>نشان‌ها</a>
+            <a href="/news" class="nav-item"><i class="ti ti-calendar-event"></i>تقویم اقتصادی</a>
+            <a href="/settings" class="nav-item"><i class="ti ti-settings"></i>تنظیمات</a>
+        </nav>
+        <button class="logout-btn" id="logoutBtn"><i class="ti ti-logout"></i>خروج</button>
+    </aside>
+
+    <main class="main">
+        <div class="topbar">
+            <h1 class="page-title">تریدها</h1>
+            <div class="topbar-right">
+                <button class="btn btn-gold" id="newTradeBtn"><i class="ti ti-plus"></i>ترید جدید</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="filters">
+                <select id="filterStatus"><option value="">همه وضعیت‌ها</option><option value="OPEN">باز</option><option value="CLOSED">بسته</option><option value="TP_HIT">حد سود</option><option value="SL_HIT">حد ضرر</option></select>
+                <select id="filterSide"><option value="">همه طرف‌ها</option><option value="LONG">LONG</option><option value="SHORT">SHORT</option></select>
+                <input type="text" id="filterSymbol" placeholder="نماد..." style="width:120px">
+                <button class="btn btn-ghost btn-sm" id="filterBtn"><i class="ti ti-filter"></i>فیلتر</button>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead><tr>
+                        <th data-col="symbol" data-type="string">نماد <span class="sort-icon"></span></th>
+                        <th data-col="side" data-type="string">طرف <span class="sort-icon"></span></th>
+                        <th data-col="entry_price" data-type="number">ورود <span class="sort-icon"></span></th>
+                        <th data-col="stop_loss" data-type="number">SL <span class="sort-icon"></span></th>
+                        <th data-col="take_profit" data-type="number">TP <span class="sort-icon"></span></th>
+                        <th data-col="quantity" data-type="number">حجم <span class="sort-icon"></span></th>
+                        <th data-col="pnl" data-type="number">PnL <span class="sort-icon"></span></th>
+                        <th data-col="status" data-type="string">وضعیت <span class="sort-icon"></span></th>
+                        <th>عملیات</th>
+                        <th></th>
+                    </tr></thead>
+                    <tbody id="tradesBody"></tbody>
+                </table>
+            </div>
+            <div class="pagination" id="tradesPagination"></div>
+        </div>
+    </main>
+</div>
+
+<!-- New Trade Modal -->
+<div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+        <button class="modal-close" id="modalClose"><i class="ti ti-x"></i></button>
+        <div class="modal-title">ترید جدید</div>
+        <div id="modalAlert" class="alert"></div>
+        <div class="form-group"><label>پورتفولیو</label><select id="tradePortfolio"></select></div>
+        <div class="form-group"><label>نماد</label><input type="text" id="tradeSymbol" placeholder="مثال: BTCUSDT"></div>
+        <div class="form-group"><label>طرف</label><select id="tradeSide"><option value="LONG">LONG</option><option value="SHORT">SHORT</option></select></div>
+        <div class="form-group"><label>قیمت ورود</label><input type="number" id="tradeEntry" step="any"></div>
+        <div class="form-group"><label>حد ضرر</label><input type="number" id="tradeSL" step="any"></div>
+        <div class="form-group"><label>حد سود (اختیاری)</label><input type="number" id="tradeTP" step="any"></div>
+        <div class="form-group"><label>درصد ریسک</label><input type="number" id="tradeRisk" value="2" step="0.1"></div>
+        <div class="form-group"><label>اهرم</label><input type="number" id="tradeLeverage" value="1" min="1"></div>
+        <div class="form-group"><label>یادداشت</label><textarea id="tradeNote" rows="2" placeholder="اختیاری"></textarea></div>
+
+        <div class="checklist-section" id="checklistSection" style="margin-top:12px;display:none">
+            <label style="font-size:12px;color:var(--gold);font-weight:600;display:block;margin-bottom:10px"><i class="ti ti-checkbox"></i> چک‌لیست پیش از ترید</label>
+            <div id="checklistItems"></div>
+        </div>
+
+        <button class="btn btn-gold" id="submitTrade" style="width:100%;margin-top:12px">ثبت ترید</button>
+    </div>
+</div>
+
+<!-- Close Trade Modal -->
+<div class="modal-overlay" id="closeModalOverlay">
+    <div class="modal">
+        <button class="modal-close" id="closeModalClose"><i class="ti ti-x"></i></button>
+        <div class="modal-title">بستن ترید</div>
+        <div class="form-group"><label>قیمت خروج</label><input type="number" id="exitPrice" step="any"></div>
+        <button class="btn btn-gold" id="submitClose" style="width:100%">بستن</button>
+    </div>
+</div>
+
+<!-- Partial Close Modal -->
+<div class="modal-overlay" id="partialModalOverlay">
+    <div class="modal">
+        <button class="modal-close" id="partialModalClose"><i class="ti ti-x"></i></button>
+        <div class="modal-title">بستن جزئی</div>
+        <div class="form-group"><label>درصد بسته شدن (%)</label><input type="number" id="partialPercent" value="50" min="1" max="100"></div>
+        <div class="form-group"><label>قیمت خروج</label><input type="number" id="partialExitPrice" step="any"></div>
+        <button class="btn btn-gold" id="submitPartial" style="width:100%">بستن جزئی</button>
+    </div>
+</div>
+
+<!-- Edit Trade Modal -->
+<div class="modal-overlay" id="editModalOverlay">
+    <div class="modal">
+        <button class="modal-close" id="editModalClose"><i class="ti ti-x"></i></button>
+        <div class="modal-title">ویرایش ترید</div>
+        <div id="editModalAlert" class="alert"></div>
+        <div class="form-group"><label>پورتفولیو</label><select id="editTradePortfolio"></select></div>
+        <div class="form-group"><label>نماد</label><input type="text" id="editTradeSymbol"></div>
+        <div class="form-group"><label>طرف</label><select id="editTradeSide"><option value="LONG">LONG</option><option value="SHORT">SHORT</option></select></div>
+        <div class="form-group"><label>قیمت ورود</label><input type="number" id="editTradeEntry" step="any"></div>
+        <div class="form-group"><label>حد ضرر</label><input type="number" id="editTradeSL" step="any"></div>
+        <div class="form-group"><label>حد سود</label><input type="number" id="editTradeTP" step="any"></div>
+        <div class="form-group"><label>درصد ریسک</label><input type="number" id="editTradeRisk" step="0.1"></div>
+        <div class="form-group"><label>اهرم</label><input type="number" id="editTradeLeverage" min="1"></div>
+        <div class="form-group"><label>یادداشت</label><textarea id="editTradeNote" rows="2"></textarea></div>
+        <button class="btn btn-gold" id="submitEdit" style="width:100%">ذخیره</button>
+    </div>
+</div>
+
+<!-- Trade Detail Modal -->
+<div class="modal-overlay" id="detailModalOverlay">
+    <div class="modal">
+        <button class="modal-close" id="detailModalClose"><i class="ti ti-x"></i></button>
+        <div class="modal-title" id="detailTitle">جزئیات ترید</div>
+        <div id="detailContent"></div>
+        <div id="detailChecklist" style="margin-top:12px;display:none"></div>
+    </div>
+</div>
+
+<script src="/js/utils.js"></script>
+<script src="/js/api.js"></script>
+<script src="/js/trades.js"></script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+/* Trades-specific styles only — shared styles in base.css */
+
+.filters { display: flex; align-items: flex-end; gap: 12px; flex-wrap: wrap; }
+
+/* Trade table */
+.table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.table-wrap table { min-width: 700px; }
+
+/* Action buttons in table */
+td .btn { white-space: nowrap; }
+td .btn + .btn { margin-right: 4px; }
+
+/* Mobile: stack action buttons vertically */
+@media (max-width: 768px) {
+    .filters { flex-direction: column; align-items: stretch; }
+    .filters input, .filters select { width: 100%; }
+    .filters .btn { width: 100%; justify-content: center; }
+
+    /* Convert table to card layout on mobile */
+    .table-wrap table { min-width: 0; }
+    .table-wrap thead { display: none; }
+    .table-wrap tbody tr {
+        display: flex; flex-direction: column; gap: 8px;
+        padding: 12px; margin-bottom: 8px;
+        background: var(--bg-card); border: 0.5px solid var(--border-color);
+        border-radius: 10px;
+    }
+    .table-wrap tbody td {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 4px 0; border-bottom: none; font-size: 13px;
+    }
+    .table-wrap tbody td::before {
+        content: attr(data-label); font-size: 11px; color: var(--text-secondary);
+        font-weight: 500;
+    }
+    .table-wrap tbody td:last-child { border-bottom: none; }
+
+    /* Action row */
+    .table-wrap tbody td.action-cell {
+        flex-direction: row; flex-wrap: wrap; gap: 6px; justify-content: flex-end;
+    }
+    .table-wrap tbody td.action-cell::before { display: none; }
+}
+
+@media (max-width: 480px) {
+    .topbar { flex-direction: column; gap: 12px; align-items: flex-start; }
+    .topbar .btn { width: 100%; justify-content: center; }
+}

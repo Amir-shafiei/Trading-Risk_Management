@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تقویم اقتصادی | TradeRisk</title>
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/news.css">
+</head>
+<body>
+<div class="layout">
+    <button class="hamburger" id="hamburgerBtn"><i class="ti ti-menu-2"></i></button>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">TRADE<span>RISK</span></div>
+        <nav class="nav">
+            <a href="/dashboard" class="nav-item"><i class="ti ti-layout-dashboard"></i>داشبورد</a>
+            <a href="/trades" class="nav-item"><i class="ti ti-chart-candle"></i>تریدها</a>
+            <a href="/portfolio" class="nav-item"><i class="ti ti-wallet"></i>پورتفولیو</a>
+            <a href="/journal" class="nav-item"><i class="ti ti-notebook"></i>ژورنال</a>
+            <a href="/badges" class="nav-item"><i class="ti ti-medal"></i>نشان‌ها</a>
+            <a href="/news" class="nav-item active"><i class="ti ti-calendar-event"></i>تقویم اقتصادی</a>
+            <a href="/settings" class="nav-item"><i class="ti ti-settings"></i>تنظیمات</a>
+        </nav>
+        <button class="logout-btn" id="logoutBtn"><i class="ti ti-logout"></i>خروج</button>
+    </aside>
+
+    <main class="main">
+        <div class="topbar">
+            <h1 class="page-title">تقویم اقتصادی</h1>
+            <div class="topbar-right">
+                <div class="live-dot" id="liveDot" title="بروزرسانی خودکار فعال"></div>
+                <button class="btn btn-ghost" id="refreshBtn"><i class="ti ti-refresh"></i>بروزرسانی</button>
+            </div>
+        </div>
+
+        <div class="day-nav">
+            <button class="day-nav-btn" id="prevDay"><i class="ti ti-chevron-right"></i>روز قبل</button>
+            <div class="day-nav-center">
+                <div class="day-nav-date" id="currentDay"></div>
+                <div class="day-nav-weekday" id="currentWeekday"></div>
+                <button class="day-nav-today" id="todayBtn">امروز</button>
+            </div>
+            <button class="day-nav-btn" id="nextDay">روز بعد<i class="ti ti-chevron-left"></i></button>
+        </div>
+
+        <div class="calendar-legend">
+            <span class="legend-item"><span class="impact-dot high"></span>بالا</span>
+            <span class="legend-item"><span class="impact-dot medium"></span>متوسط</span>
+            <span class="legend-item"><span class="impact-dot low"></span>پایین</span>
+        </div>
+
+        <div class="calendar-filters">
+            <button class="filter-chip active" data-impact="all">همه</button>
+            <button class="filter-chip" data-impact="3"><span class="impact-dot high"></span>بالا</button>
+            <button class="filter-chip" data-impact="2"><span class="impact-dot medium"></span>متوسط</button>
+            <button class="filter-chip" data-impact="1"><span class="impact-dot low"></span>پایین</button>
+            <div class="currency-filters" id="currencyFilters"></div>
+        </div>
+
+        <div class="card">
+            <div class="table-wrap">
+                <table class="calendar-table">
+                    <thead>
+                        <tr>
+                            <th style="width:50px">ساعت</th>
+                            <th style="width:60px">ارز</th>
+                            <th style="width:60px">اهمیت</th>
+                            <th>رویداد</th>
+                            <th style="width:80px">پیش‌بینی</th>
+                            <th style="width:80px">قبلی</th>
+                            <th style="width:80px">واقعی</th>
+                        </tr>
+                    </thead>
+                    <tbody id="calendarBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Event Detail Modal -->
+<div class="modal-overlay" id="eventModal">
+    <div class="modal" style="max-width:520px">
+        <button class="modal-close" id="eventModalClose"><i class="ti ti-x"></i></button>
+        <div id="eventModalContent"></div>
+    </div>
+</div>
+
+<script src="/js/utils.js"></script>
+<script src="/js/api.js"></script>
+<script src="/js/news.js"></script>
+</body>
+</html>

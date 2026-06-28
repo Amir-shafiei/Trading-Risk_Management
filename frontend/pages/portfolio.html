@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پورتفولیو | TradeRisk</title>
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/portfolio.css">
+</head>
+<body>
+<div class="layout">
+    <button class="hamburger" id="hamburgerBtn"><i class="ti ti-menu-2"></i></button>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">TRADE<span>RISK</span></div>
+        <nav class="nav">
+            <a href="/dashboard" class="nav-item"><i class="ti ti-layout-dashboard"></i>داشبورد</a>
+            <a href="/trades" class="nav-item"><i class="ti ti-chart-candle"></i>تریدها</a>
+            <a href="/portfolio" class="nav-item active"><i class="ti ti-wallet"></i>پورتفولیو</a>
+            <a href="/journal" class="nav-item"><i class="ti ti-notebook"></i>ژورنال</a>
+            <a href="/badges" class="nav-item"><i class="ti ti-medal"></i>نشان‌ها</a>
+            <a href="/news" class="nav-item"><i class="ti ti-calendar-event"></i>تقویم اقتصادی</a>
+            <a href="/settings" class="nav-item"><i class="ti ti-settings"></i>تنظیمات</a>
+        </nav>
+        <button class="logout-btn" id="logoutBtn"><i class="ti ti-logout"></i>خروج</button>
+    </aside>
+
+    <main class="main">
+        <div class="topbar">
+            <h1 class="page-title">پورتفولیو</h1>
+            <div class="topbar-right">
+                <button class="btn btn-gold" id="newPtBtn"><i class="ti ti-plus"></i>پورتفولیو جدید</button>
+            </div>
+        </div>
+
+        <div class="summary-grid" id="summaryGrid">
+            <div class="sum-card"><div class="sum-label">کل سرمایه</div><div class="skeleton skeleton-text short"></div></div>
+            <div class="sum-card"><div class="sum-label">کل موجودی</div><div class="skeleton skeleton-text short"></div></div>
+            <div class="sum-card"><div class="sum-label">کل سود/ضرر</div><div class="skeleton skeleton-text short"></div></div>
+            <div class="sum-card"><div class="sum-label">بازدهی کل</div><div class="skeleton skeleton-text short"></div></div>
+        </div>
+
+        <div class="pt-grid" id="portfolioGrid"></div>
+    </main>
+</div>
+
+<div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+        <button class="modal-close" id="modalClose"><i class="ti ti-x"></i></button>
+        <div class="modal-title">پورتفولیو جدید</div>
+        <div class="form-group"><label>نام پورتفولیو</label><input type="text" id="ptName" placeholder="مثال: حساب اصلی"></div>
+        <div class="form-group"><label>سرمایه اولیه ($)</label><input type="number" id="ptCapital" placeholder="مثال: 10000"></div>
+        <button class="btn btn-gold" id="submitPortfolio" style="width:100%">ایجاد پورتفولیو</button>
+    </div>
+</div>
+
+<script src="/js/utils.js"></script>
+<script src="/js/api.js"></script>
+<script src="/js/portfolio.js"></script>
+</body>
+</html>

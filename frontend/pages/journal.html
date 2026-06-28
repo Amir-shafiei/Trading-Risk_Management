@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ژورنال | TradeRisk</title>
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/journal.css">
+</head>
+<body>
+<div class="layout">
+    <button class="hamburger" id="hamburgerBtn"><i class="ti ti-menu-2"></i></button>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">TRADE<span>RISK</span></div>
+        <nav class="nav">
+            <a href="/dashboard" class="nav-item"><i class="ti ti-layout-dashboard"></i>داشبورد</a>
+            <a href="/trades" class="nav-item"><i class="ti ti-chart-candle"></i>تریدها</a>
+            <a href="/portfolio" class="nav-item"><i class="ti ti-wallet"></i>پورتفولیو</a>
+            <a href="/journal" class="nav-item active"><i class="ti ti-notebook"></i>ژورنال</a>
+            <a href="/badges" class="nav-item"><i class="ti ti-medal"></i>نشان‌ها</a>
+            <a href="/news" class="nav-item"><i class="ti ti-calendar-event"></i>تقویم اقتصادی</a>
+            <a href="/settings" class="nav-item"><i class="ti ti-settings"></i>تنظیمات</a>
+        </nav>
+        <button class="logout-btn" id="logoutBtn"><i class="ti ti-logout"></i>خروج</button>
+    </aside>
+
+    <main class="main">
+        <div class="topbar">
+            <h1 class="page-title">ژورنال معاملات</h1>
+        </div>
+
+        <div class="card" style="margin-bottom:20px">
+            <div class="card-title"><i class="ti ti-calendar"></i>نقشه سود و زیان روزانه</div>
+            <div class="heatmap-container" id="heatmapContainer"></div>
+            <div class="heatmap-legend">
+                <span class="legend-label">ضرر</span>
+                <div class="legend-box" style="background:#EF444433"></div>
+                <div class="legend-box" style="background:#EF444466"></div>
+                <div class="legend-box" style="background:#EF4444"></div>
+                <div class="legend-box" style="background:var(--bg-input);border:0.5px solid var(--border-color)"></div>
+                <div class="legend-box" style="background:#22C55E66"></div>
+                <div class="legend-box" style="background:#22C55E99"></div>
+                <div class="legend-box" style="background:#22C55E"></div>
+                <span class="legend-label">سود</span>
+            </div>
+        </div>
+
+        <div class="stats-grid" style="margin-bottom:20px">
+            <div class="stat-card"><div class="stat-label">بهترین ترید</div><div class="stat-value up" id="bestTrade">---</div></div>
+            <div class="stat-card"><div class="stat-label">بدترین ترید</div><div class="stat-value down" id="worstTrade">---</div></div>
+            <div class="stat-card"><div class="stat-label">میانگین سود</div><div class="stat-value gold" id="avgWin">---</div></div>
+            <div class="stat-card"><div class="stat-label">میانگین ضرر</div><div class="stat-value down" id="avgLoss">---</div></div>
+        </div>
+
+        <div class="journal-grid">
+            <div class="left-col">
+                <div class="card filters">
+                    <div class="filter-group"><label>نماد</label><input type="text" id="filterSymbol" placeholder="مثال: BTC"></div>
+                    <div class="filter-group"><label>جهت</label><select id="filterSide"><option value="">همه</option><option value="LONG">Long</option><option value="SHORT">Short</option></select></div>
+                    <div class="filter-group"><label>نتیجه</label><select id="filterResult"><option value="">همه</option><option value="win">سودده</option><option value="loss">ضررده</option></select></div>
+                    <button class="btn btn-ghost" id="filterBtn"><i class="ti ti-search"></i>فیلتر</button>
+                </div>
+                <div id="journalList" style="margin-top:16px"></div>
+                <div class="pagination" id="journalPagination"></div>
+            </div>
+            <div class="right-col">
+                <div class="card">
+                    <div class="card-title"><i class="ti ti-chart-bar"></i>آمار نمادها</div>
+                    <div id="symbolStats"></div>
+                </div>
+                <div class="card" style="margin-top:16px">
+                    <div class="card-title"><i class="ti ti-report-analytics"></i>خلاصه عملکرد</div>
+                    <div class="summary-list" id="summaryList"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script src="/js/utils.js"></script>
+<script src="/js/api.js"></script>
+<script src="/js/journal.js"></script>
+</body>
+</html>

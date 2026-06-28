@@ -1,0 +1,53 @@
+/* Portfolio-specific styles */
+
+.summary-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+.sum-card { background: var(--bg-card); border: 0.5px solid var(--border-color); border-radius: 12px; padding: 16px; }
+.sum-label { font-size: 11px; color: var(--text-secondary); margin-bottom: 8px; }
+.sum-val { font-size: 20px; font-weight: 700; direction: ltr; text-align: right; }
+
+.pt-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+
+.pt-card {
+    background: var(--bg-card); border: 0.5px solid var(--border-color);
+    border-radius: 16px; padding: 24px; position: relative; transition: border-color 0.2s;
+}
+.pt-card.default { border-color: var(--gold); }
+.pt-card:hover { border-color: var(--border-hover); }
+
+.pt-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+.pt-name { font-size: 17px; font-weight: 600; color: var(--text-primary); }
+.pt-trade-count { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
+
+.pt-default-badge {
+    font-size: 11px; padding: 3px 10px; border-radius: 20px; background: var(--gold-bg);
+    color: var(--gold); border: 0.5px solid var(--gold-border);
+    display: flex; align-items: center; gap: 4px; margin-bottom: 8px;
+}
+
+.pt-donut { position: relative; width: 80px; height: 80px; }
+.pt-donut svg { width: 80px; height: 80px; transform: rotate(-90deg); }
+.pt-donut-val {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    font-size: 12px; font-weight: 700; color: var(--gold); direction: ltr;
+}
+
+.pt-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+.pt-stat-label { font-size: 11px; color: var(--text-secondary); margin-bottom: 4px; }
+.pt-stat-val { font-size: 15px; font-weight: 600; direction: ltr; color: var(--text-primary); }
+
+.pt-progress { margin-bottom: 16px; }
+.pt-progress-top { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-secondary); margin-bottom: 6px; }
+.pt-bar { height: 4px; background: var(--bg-input); border-radius: 2px; overflow: hidden; }
+.pt-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, #8B6914, #C9A84C); }
+
+.pt-divider { height: 0.5px; background: var(--divider); margin-bottom: 14px; }
+
+.pt-actions { display: flex; gap: 8px; }
+
+@media (max-width: 768px) {
+    .summary-grid { grid-template-columns: repeat(2, 1fr); }
+    .pt-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+    .summary-grid { grid-template-columns: 1fr; }
+}
