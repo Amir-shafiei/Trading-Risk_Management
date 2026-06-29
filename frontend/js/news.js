@@ -397,13 +397,10 @@ function startAutoRefresh() {
     autoRefreshInterval = setInterval(async () => {
         try {
             await api.refreshNews();
-            setTimeout(async () => {
-                try {
-                    const data = await api.getNews();
-                    allEvents = data.events || [];
-                    renderCalendar();
-                } catch {}
-            }, 3000);
+            const data = await api.getNews();
+            allEvents = data.events || [];
+            buildCurrencyFilters();
+            renderCalendar();
         } catch {}
     }, 5 * 60 * 1000);
 }
@@ -411,17 +408,13 @@ function startAutoRefresh() {
 // Manual refresh
 document.getElementById('refreshBtn').addEventListener('click', async () => {
     try {
-        await api.refreshNews();
         Toast.info('تقویم در حال بروزرسانی...');
-        setTimeout(async () => {
-            try {
-                const data = await api.getNews();
-                allEvents = data.events || [];
-                buildCurrencyFilters();
-                renderCalendar();
-                Toast.success('تقویم بروزرسانی شد');
-            } catch {}
-        }, 2000);
+        await api.refreshNews();
+        const data = await api.getNews();
+        allEvents = data.events || [];
+        buildCurrencyFilters();
+        renderCalendar();
+        Toast.success('تقویم بروزرسانی شد');
     } catch (err) {
         Toast.error(err.message);
     }

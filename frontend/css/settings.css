@@ -1,18 +1,286 @@
-/* Settings-specific styles */
+/* Settings — single-column layout */
 
-.settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 800px; }
-
-.theme-toggle { display: flex; flex-direction: column; gap: 10px; }
-.toggle-buttons { display: flex; gap: 8px; }
-.toggle-btn {
-    flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px;
-    padding: 10px 16px; border-radius: 8px; background: var(--bg-input);
-    border: 0.5px solid var(--border-color); color: var(--text-secondary);
-    font-size: 13px; font-family: 'Vazirmatn', sans-serif; cursor: pointer; transition: all 0.2s;
+.settings-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 560px;
 }
-.toggle-btn.active { background: var(--gold-bg); border-color: var(--gold-border); color: var(--gold); }
-.toggle-btn i { font-size: 16px; }
 
-@media (max-width: 768px) {
-    .settings-grid { grid-template-columns: 1fr; }
+/* ── Card ── */
+.s-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.s-card-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--divider);
+}
+.s-head-icon {
+    font-size: 18px;
+    color: var(--text-secondary);
+}
+.s-head-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.s-card-body {
+    padding: 18px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* ── Fields ── */
+.s-field { display: flex; flex-direction: column; gap: 6px; }
+
+.s-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.s-input {
+    width: 100%;
+    height: 42px;
+    background: var(--bg-input);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 0 14px;
+    color: var(--text-primary);
+    font-size: 14px;
+    font-family: 'Vazirmatn', sans-serif;
+    outline: none;
+    direction: ltr;
+    text-align: right;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.s-input::placeholder {
+    color: var(--text-muted);
+    font-size: 13px;
+}
+.s-input:hover {
+    border-color: var(--border-hover);
+}
+.s-input:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px var(--gold-bg);
+}
+.s-input.error {
+    border-color: var(--red);
+    box-shadow: 0 0 0 3px var(--red-bg);
+    animation: shake 0.3s ease;
+}
+
+/* Number input with prefix */
+.s-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.s-input-prefix {
+    position: absolute;
+    right: 14px;
+    font-size: 14px;
+    color: var(--text-muted);
+    pointer-events: none;
+    z-index: 1;
+}
+.s-input-num {
+    padding-left: 14px;
+}
+
+/* Row of two fields */
+.s-field-row {
+    display: flex;
+    gap: 14px;
+}
+.s-field-row .s-field {
+    flex: 1;
+}
+
+/* Hint */
+.s-hint {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    padding: 8px 12px;
+    background: var(--bg-input);
+    border-radius: 8px;
+    line-height: 1.5;
+}
+.s-hint i {
+    font-size: 14px;
+    color: var(--text-muted);
+    flex-shrink: 0;
+}
+
+/* ── Buttons ── */
+.s-btn-primary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    height: 42px;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Vazirmatn', sans-serif;
+    cursor: pointer;
+    background: linear-gradient(135deg, #8B6914, #C9A84C, #E8D48B);
+    background-size: 200% 200%;
+    color: #000;
+    animation: gradientShift 3s ease infinite;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.s-btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(201, 168, 76, 0.35);
+}
+.s-btn-primary:active {
+    transform: translateY(0);
+}
+.s-btn-primary i {
+    font-size: 16px;
+}
+
+.s-btn-add {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-input);
+    color: var(--text-secondary);
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.15s;
+}
+.s-btn-add:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+    background: var(--gold-bg);
+}
+
+/* ── Theme Switch ── */
+.theme-switch {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    overflow: hidden;
+}
+.theme-opt {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 44px;
+    border: none;
+    background: var(--bg-input);
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-family: 'Vazirmatn', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.theme-opt:first-child {
+    border-left: 1px solid var(--border-color);
+}
+.theme-opt:hover {
+    color: var(--text-primary);
+    background: color-mix(in srgb, var(--bg-input) 80%, var(--text-primary));
+}
+.theme-opt.active {
+    background: var(--gold-bg);
+    color: var(--gold);
+    font-weight: 600;
+}
+.theme-opt i {
+    font-size: 16px;
+}
+
+/* ── Checklist ── */
+.checklist-items {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.checklist-items:empty {
+    display: none;
+}
+
+.checklist-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background: var(--bg-input);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    font-size: 14px;
+    color: var(--text-primary);
+    transition: border-color 0.15s;
+}
+.checklist-item:hover {
+    border-color: var(--border-hover);
+}
+.checklist-item span {
+    flex: 1;
+    min-width: 0;
+}
+
+.s-btn-remove {
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+    border: 1px solid var(--border-color);
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+    transition: all 0.15s;
+}
+.s-btn-remove:hover {
+    background: var(--red-bg);
+    border-color: var(--red);
+    color: var(--red);
+}
+
+/* ── Add row ── */
+.s-add-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.s-add-row .s-input {
+    flex: 1;
+    height: 42px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+    .s-field-row { flex-direction: column; }
+    .s-card-head { padding: 14px 16px; }
+    .s-card-body { padding: 14px 16px 16px; }
 }

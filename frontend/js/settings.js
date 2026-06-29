@@ -12,7 +12,7 @@ document.getElementById('sidebarOverlay').addEventListener('click', () => {
 
 // Password change
 document.getElementById('changePasswordBtn').addEventListener('click', async () => {
-    Validate.clearAll(document.querySelector('.card'));
+    Validate.clearAll(document.querySelector('.s-card'));
     const oldPassword = document.getElementById('oldPassword').value;
     const newPassword = document.getElementById('newPassword').value;
     const confirmPassword = document.getElementById('confirmPassword').value;
@@ -116,13 +116,13 @@ async function loadChecklistDefaults() {
 function renderChecklistDefaults() {
     const list = document.getElementById('checklistDefaultsList');
     if (checklistDefaults.length === 0) {
-        list.innerHTML = '<div style="font-size:12px;color:var(--text-muted);padding:8px 0">هنوز آیمی اضافه نشده</div>';
+        list.innerHTML = '';
         return;
     }
     list.innerHTML = checklistDefaults.map((item, i) => `
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg-input);border-radius:8px;margin-bottom:6px;font-size:13px;color:var(--text-primary)">
+        <div class="checklist-item">
             <span>${item}</span>
-            <button class="btn btn-danger btn-sm" onclick="removeChecklistDefault(${i})" style="padding:2px 8px;font-size:11px"><i class="ti ti-x"></i></button>
+            <button class="s-btn-remove" onclick="removeChecklistDefault(${i})"><i class="ti ti-x"></i></button>
         </div>
     `).join('');
 }

@@ -33,50 +33,91 @@
             <h1 class="page-title">تنظیمات</h1>
         </div>
 
-        <div class="settings-grid">
-            <div class="card">
-                <div class="card-title"><i class="ti ti-lock"></i>تغییر رمز عبور</div>
-                <div class="form-group"><label>رمز عبور فعلی</label><input type="password" id="oldPassword" placeholder="رمز فعلی"></div>
-                <div class="form-group"><label>رمز عبور جدید</label><input type="password" id="newPassword" placeholder="حداقل ۶ کاراکتر"></div>
-                <div class="form-group"><label>تکرار رمز عبور جدید</label><input type="password" id="confirmPassword" placeholder="تکرار رمز جدید"></div>
-                <button class="btn btn-gold" id="changePasswordBtn" style="width:100%">تغییر رمز</button>
-            </div>
+        <div class="settings-list">
 
-            <div class="card">
-                <div class="card-title"><i class="ti ti-palette"></i>ظاهر</div>
-                <div class="theme-toggle">
-                    <label style="font-size:12px;color:var(--text-secondary)">حالت تم</label>
-                    <div class="toggle-buttons">
-                        <button class="toggle-btn active" data-theme="dark" id="darkBtn"><i class="ti ti-moon"></i>تاریک</button>
-                        <button class="toggle-btn" data-theme="light" id="lightBtn"><i class="ti ti-sun"></i>روشن</button>
+            <!-- Theme -->
+            <div class="s-card">
+                <div class="s-card-head">
+                    <i class="ti ti-palette s-head-icon"></i>
+                    <span class="s-head-title">ظاهر</span>
+                </div>
+                <div class="s-card-body">
+                    <div class="theme-switch">
+                        <button class="theme-opt active" data-theme="dark" id="darkBtn"><i class="ti ti-moon"></i><span>تاریک</span></button>
+                        <button class="theme-opt" data-theme="light" id="lightBtn"><i class="ti ti-sun"></i><span>روشن</span></button>
                     </div>
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-title"><i class="ti ti-shield"></i>محدودیت‌های ریسک</div>
-                <div class="form-group"><label>پورتفولیو</label><select id="riskPortfolio"></select></div>
-                <div class="form-group">
-                    <label>حداکثر ضرر روزانه ($)</label>
-                    <input type="number" id="dailyLossLimit" placeholder="0 = بدون محدودیت" min="0" step="10">
+            <!-- Risk Limits -->
+            <div class="s-card">
+                <div class="s-card-head">
+                    <i class="ti ti-shield s-head-icon"></i>
+                    <span class="s-head-title">محدودیت‌های ریسک</span>
                 </div>
-                <div class="form-group">
-                    <label>حداکثر پوزیشن باز</label>
-                    <input type="number" id="maxOpenTrades" placeholder="0 = بدون محدودیت" min="0" step="1">
+                <div class="s-card-body">
+                    <div class="s-field">
+                        <label class="s-label">پورتفولیو</label>
+                        <select class="s-input" id="riskPortfolio"></select>
+                    </div>
+                    <div class="s-field-row">
+                        <div class="s-field">
+                            <label class="s-label">حداکثر ضرر روزانه</label>
+                            <div class="s-input-wrap">
+                                <span class="s-input-prefix">$</span>
+                                <input class="s-input s-input-num" type="number" id="dailyLossLimit" placeholder="0" min="0" step="10">
+                            </div>
+                        </div>
+                        <div class="s-field">
+                            <label class="s-label">حداکثر پوزیشن باز</label>
+                            <input class="s-input s-input-num" type="number" id="maxOpenTrades" placeholder="0" min="0" step="1">
+                        </div>
+                    </div>
+                    <div class="s-hint"><i class="ti ti-info-circle"></i> مقدار ۰ به معنای بدون محدودیت است</div>
+                    <button class="s-btn-primary" id="saveRiskLimits"><i class="ti ti-device-floppy"></i>ذخیره محدودیت‌ها</button>
                 </div>
-                <button class="btn btn-gold" id="saveRiskLimits" style="width:100%">ذخیره محدودیت‌ها</button>
             </div>
 
-            <div class="card" style="grid-column:1/-1">
-                <div class="card-title"><i class="ti ti-checkbox"></i>چک‌لیست پیش از ترید</div>
-                <p style="font-size:12px;color:var(--text-secondary);margin-bottom:16px">آیتم‌های زیر هر بار که ترید جدید باز می‌کنید به صورت خودکار نمایش داده می‌شوند. آن‌ها را یک بار تنظیم کنید.</p>
-                <div id="checklistDefaultsList"></div>
-                <div style="display:flex;gap:8px;margin-top:12px">
-                    <input type="text" id="newChecklistDefault" placeholder="آیتم جدید اضافه کنید..." style="flex:1">
-                    <button class="btn btn-gold btn-sm" id="addChecklistDefault"><i class="ti ti-plus"></i>افزودن</button>
+            <!-- Security -->
+            <div class="s-card">
+                <div class="s-card-head">
+                    <i class="ti ti-lock s-head-icon"></i>
+                    <span class="s-head-title">امنیت</span>
                 </div>
-                <button class="btn btn-gold" id="saveChecklistDefaults" style="width:100%;margin-top:12px">ذخیره چک‌لیست</button>
+                <div class="s-card-body">
+                    <div class="s-field">
+                        <label class="s-label">رمز عبور فعلی</label>
+                        <input class="s-input" type="password" id="oldPassword" placeholder="رمز فعلی را وارد کنید">
+                    </div>
+                    <div class="s-field">
+                        <label class="s-label">رمز عبور جدید</label>
+                        <input class="s-input" type="password" id="newPassword" placeholder="حداقل ۶ کاراکتر">
+                    </div>
+                    <div class="s-field">
+                        <label class="s-label">تکرار رمز عبور جدید</label>
+                        <input class="s-input" type="password" id="confirmPassword" placeholder="رمز جدید را دوباره وارد کنید">
+                    </div>
+                    <button class="s-btn-primary" id="changePasswordBtn"><i class="ti ti-check"></i>تغییر رمز عبور</button>
+                </div>
             </div>
+
+            <!-- Checklist -->
+            <div class="s-card">
+                <div class="s-card-head">
+                    <i class="ti ti-checkbox s-head-icon"></i>
+                    <span class="s-head-title">چک‌لیست پیش از ترید</span>
+                </div>
+                <div class="s-card-body">
+                    <div class="s-hint" style="margin-top:0;margin-bottom:14px">آیتم‌های زیر هنگام باز کردن ترید جدید نمایش داده می‌شوند.</div>
+                    <div id="checklistDefaultsList" class="checklist-items"></div>
+                    <div class="s-add-row">
+                        <input class="s-input" type="text" id="newChecklistDefault" placeholder="آیتم جدید اضافه کنید...">
+                        <button class="s-btn-add" id="addChecklistDefault"><i class="ti ti-plus"></i></button>
+                    </div>
+                    <button class="s-btn-primary" id="saveChecklistDefaults"><i class="ti ti-device-floppy"></i>ذخیره چک‌لیست</button>
+                </div>
+            </div>
+
         </div>
     </main>
 </div>

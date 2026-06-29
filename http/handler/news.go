@@ -33,6 +33,6 @@ func (h *NewsHandler) RefreshNews(c *gin.Context) {
 		return
 	}
 
-	go h.newsService.Refresh()
-	c.JSON(http.StatusOK, gin.H{"message": "calendar refreshing"})
+	h.newsService.Refresh()
+	c.JSON(http.StatusOK, gin.H{"message": "calendar refreshed"})
 }
