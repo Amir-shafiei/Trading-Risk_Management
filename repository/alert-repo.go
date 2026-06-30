@@ -33,10 +33,10 @@ func (repo *AlertRepo) GetByID(id uint) (*models.RiskAlert, error) {
 
 func (repo *AlertRepo) GetUnread(userID uint) ([]models.RiskAlert, error) {
 	var alerts []models.RiskAlert
-	err := repo.db.Where("user_id = ? AND read = ?", userID, false).Order("created_at desc").Find(&alerts).Error
+	err := repo.db.Where("user_id = ? AND `read` = ?", userID, false).Order("created_at desc").Find(&alerts).Error
 	return alerts, err
 }
 
 func (repo *AlertRepo) MarkRead(id uint) error {
-	return repo.db.Model(&models.RiskAlert{}).Where("id = ?", id).Update("read", true).Error
+	return repo.db.Model(&models.RiskAlert{}).Where("id = ?", id).Update("`read`", true).Error
 }

@@ -167,6 +167,7 @@ type liveActual struct {
 
 func scrapeForexLiveActuals() []liveActual {
 	opts := append(chromedp.DefaultExecAllocatorOptions[:],
+		chromedp.ExecPath("/usr/bin/chromium-browser"),
 		chromedp.Flag("headless", true),
 		chromedp.Flag("disable-gpu", true),
 		chromedp.Flag("no-sandbox", true),
