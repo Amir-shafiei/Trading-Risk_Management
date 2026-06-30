@@ -125,9 +125,6 @@
 /* Values */
 .event-time { direction: ltr; font-variant-numeric: tabular-nums; }
 .event-value { direction: ltr; font-variant-numeric: tabular-nums; font-weight: 500; }
-.event-actual { font-weight: 700; }
-.event-actual.positive { color: var(--green); }
-.event-actual.negative { color: var(--red); }
 
 /* No events */
 .no-events {
@@ -142,7 +139,7 @@
 .event-detail-title { font-size: 17px; font-weight: 700; color: var(--gold); }
 .event-detail-title-fa { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
 .event-detail-meta {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px;
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 16px;
 }
 .event-detail-box {
     background: var(--bg-input); border-radius: 10px; padding: 12px; text-align: center;

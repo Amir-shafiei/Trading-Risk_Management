@@ -126,30 +126,45 @@ Shortcuts.init();
 
         if (dashResult) {
             const d = dashResult.dashboard;
+            const isEmpty = d.balance === 0 && d.closed_trades === 0;
             const pnlPos = d.total_pnl >= 0;
-            document.getElementById('statsGrid').innerHTML = `
-                <div class="stat-card">
-                    <div class="stat-label">موجودی کل</div>
-                    <div class="stat-value" data-count="${d.balance}" data-prefix="$">---</div>
-                    <div class="stat-sub"></div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">کل PnL</div>
-                    <div class="stat-value ${pnlPos ? 'up' : 'down'}" data-count="${d.total_pnl}" data-prefix="${pnlPos ? '+$' : '$'}" data-decimals="0">---</div>
-                    <div class="stat-sub">${d.closed_trades} ترید بسته شده</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">نرخ برد</div>
-                    <div class="stat-value gold" data-count="${d.win_rate}" data-suffix="%" data-decimals="1">---</div>
-                    <div class="stat-sub">بهترین: +$${d.best_trade.toFixed(0)} | بدترین: $${d.worst_trade.toFixed(0)}</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">تریدهای باز</div>
-                    <div class="stat-value" data-count="${d.open_trades}">---</div>
-                    <div class="stat-sub">میانگین R/R: ${d.avg_risk_reward.toFixed(2)}</div>
-                </div>
-            `;
-            Counter.animateAll(document.getElementById('statsGrid'));
+
+            if (isEmpty) {
+                document.getElementById('statsGrid').innerHTML = `
+                    <div class="stat-card" style="grid-column:1/-1;text-align:center;padding:24px">
+                        <div style="font-size:32px;margin-bottom:8px">👋</div>
+                        <div style="font-size:15px;font-weight:600;margin-bottom:6px">خوش آمدید!</div>
+                        <div style="font-size:13px;color:var(--text-secondary);line-height:1.7">
+                            برای شروع، ابتدا یک پورتفولیو بسازید و تریدهای خود را ثبت کنید.
+                            <br><a href="/portfolio" style="color:var(--gold);text-decoration:underline;margin-top:4px;display:inline-block">رفتن به پورتفولیو</a>
+                        </div>
+                    </div>
+                `;
+            } else {
+                document.getElementById('statsGrid').innerHTML = `
+                    <div class="stat-card">
+                        <div class="stat-label">موجودی کل</div>
+                        <div class="stat-value" data-count="${d.balance}" data-prefix="$">---</div>
+                        <div class="stat-sub"></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">کل PnL</div>
+                        <div class="stat-value ${pnlPos ? 'up' : 'down'}" data-count="${d.total_pnl}" data-prefix="${pnlPos ? '+$' : '$'}" data-decimals="0">---</div>
+                        <div class="stat-sub">${d.closed_trades} ترید بسته شده</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">نرخ برد</div>
+                        <div class="stat-value gold" data-count="${d.win_rate}" data-suffix="%" data-decimals="1">---</div>
+                        <div class="stat-sub">بهترین: +$${d.best_trade.toFixed(0)} | بدترین: $${d.worst_trade.toFixed(0)}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">تریدهای باز</div>
+                        <div class="stat-value" data-count="${d.open_trades}">---</div>
+                        <div class="stat-sub">میانگین R/R: ${d.avg_risk_reward.toFixed(2)}</div>
+                    </div>
+                `;
+                Counter.animateAll(document.getElementById('statsGrid'));
+            }
 
             if (pnlResult) {
                 const points = pnlResult.pnl_history;

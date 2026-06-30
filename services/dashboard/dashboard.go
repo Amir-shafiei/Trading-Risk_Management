@@ -57,13 +57,12 @@ func NewDashboardService(tradeRepo repository.TradeRepository, portfolioRepo rep
 }
 
 func (s *DashboardServiceImpl) GetDashboard(userID uint) (*DashboardResponse, error) {
-	// ۱. گرفتن پورتفولیو پیشفرض
 	portfolio, err := s.portfolioRepo.GetDefault(userID)
 	if err != nil {
-		return nil, err
+		// No portfolio yet — return zero values so the dashboard still loads
+		return &DashboardResponse{}, nil
 	}
 
-	// ۲. گرفتن stats
 	stats, err := s.tradeRepo.GetStats(userID)
 	if err != nil {
 		return nil, err

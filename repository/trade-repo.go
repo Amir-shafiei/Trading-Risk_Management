@@ -2,6 +2,7 @@ package repository
 
 import (
 	"Trading-Risk_Management/models"
+	"math"
 	"time"
 
 	"gorm.io/gorm"
@@ -71,7 +72,10 @@ func (repo *TradeRepo) GetStats(userID uint) (*models.TradeStats, error) {
 		return nil, err
 	}
 
-	stats := &models.TradeStats{}
+	stats := &models.TradeStats{
+		BestTrade:  -math.MaxFloat64,
+		WorstTrade: math.MaxFloat64,
+	}
 	var wins int
 	var rrSum float64
 	var rrCount int
@@ -113,6 +117,12 @@ func (repo *TradeRepo) GetStats(userID uint) (*models.TradeStats, error) {
 	}
 	if rrCount > 0 {
 		stats.AvgRiskReward = rrSum / float64(rrCount)
+	}
+	if stats.BestTrade == -math.MaxFloat64 {
+		stats.BestTrade = 0
+	}
+	if stats.WorstTrade == math.MaxFloat64 {
+		stats.WorstTrade = 0
 	}
 
 	return stats, nil

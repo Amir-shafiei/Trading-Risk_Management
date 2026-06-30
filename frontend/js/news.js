@@ -250,7 +250,7 @@ function renderCalendar() {
     }
 
     if (dayEvents.length === 0) {
-        body.innerHTML = `<tr><td colspan="7">
+        body.innerHTML = `<tr><td colspan="6">
             <div class="no-events">
                 <div class="no-events-icon">📅</div>
                 <div>رویداد اقتصادی برای این روز وجود ندارد</div>
@@ -274,17 +274,8 @@ function renderCalendar() {
             </td>
             <td data-label="پیش‌بینی" class="event-value">${e.forecast || '—'}</td>
             <td data-label="قبلی" class="event-value">${e.previous || '—'}</td>
-            <td data-label="واقعی" class="event-value event-actual ${getActualClass(e.actual, e.forecast)}">${e.actual || '—'}</td>
         </tr>`;
     }).join('');
-}
-
-function getActualClass(actual, forecast) {
-    if (!actual || !forecast) return '';
-    const a = parseFloat(actual.replace(/[^0-9.-]/g, ''));
-    const f = parseFloat(forecast.replace(/[^0-9.-]/g, ''));
-    if (isNaN(a) || isNaN(f)) return '';
-    return a > f ? 'positive' : a < f ? 'negative' : '';
 }
 
 // Open event detail modal
@@ -310,10 +301,6 @@ function openEventDetail(td) {
             <div class="event-detail-box">
                 <div class="event-detail-box-label">قبلی</div>
                 <div class="event-detail-box-value">${e.previous || '—'}</div>
-            </div>
-            <div class="event-detail-box">
-                <div class="event-detail-box-label">واقعی</div>
-                <div class="event-detail-box-value event-actual ${getActualClass(e.actual, e.forecast)}">${e.actual || ' منتشر نشده'}</div>
             </div>
         </div>
         ${info.desc ? `<div class="event-detail-desc"><strong>توضیح:</strong><br>${info.desc}</div>` : '<div class="event-detail-desc" style="opacity:0.5">توضیحات فارسی برای این رویداد موجود نیست.</div>'}
@@ -379,7 +366,7 @@ function buildCurrencyFilters() {
 // Load calendar data
 async function loadCalendar() {
     const body = document.getElementById('calendarBody');
-    body.innerHTML = `<tr><td colspan="7">${Skeleton.rows(5)}</td></tr>`;
+    body.innerHTML = `<tr><td colspan="6">${Skeleton.rows(5)}</td></tr>`;
 
     try {
         const data = await api.getNews();
@@ -387,7 +374,7 @@ async function loadCalendar() {
         buildCurrencyFilters();
         renderCalendar();
     } catch (err) {
-        body.innerHTML = `<tr><td colspan="7" class="loading">خطا در دریافت تقویم</td></tr>`;
+        body.innerHTML = `<tr><td colspan="6" class="loading">خطا در دریافت تقویم</td></tr>`;
     }
 }
 
