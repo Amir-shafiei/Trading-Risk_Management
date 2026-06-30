@@ -2,6 +2,7 @@ package news
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -53,24 +54,26 @@ func NewNewsService() NewsService {
 
 func (s *NewsServiceImpl) Refresh() {
 	events := fetchFaireconomy()
+	actuals := fetchForexFactoryActuals()
+	merged := mergeActuals(events, actuals)
 
-	if len(events) == 0 {
+	if len(merged) == 0 {
 		log.Println("[news] refresh returned 0 events, keeping previous data")
 		return
 	}
 
-	sort.Slice(events, func(i, j int) bool {
-		if events[i].Date == events[j].Date {
-			return events[i].Time < events[j].Time
+	sort.Slice(merged, func(i, j int) bool {
+		if merged[i].Date == merged[j].Date {
+			return merged[i].Time < merged[j].Time
 		}
-		return events[i].Date < events[j].Date
+		return merged[i].Date < merged[j].Date
 	})
 
 	s.mu.Lock()
-	s.events = events
+	s.events = merged
 	s.lastUp = time.Now()
 	s.mu.Unlock()
-	log.Printf("[news] refreshed %d events", len(events))
+	log.Printf("[news] refreshed %d events (%d actuals matched)", len(merged), len(actuals))
 }
 
 func (s *NewsServiceImpl) GetLatest() []CalendarEvent {
@@ -149,4 +152,155 @@ func fetchFaireconomy() []CalendarEvent {
 		}
 	}
 	return allEvents
+}
+
+type ffEvent struct {
+	Name      string `json:"name"`
+	Currency  string `json:"currency"`
+	Dateline  int64  `json:"dateline"`
+	Actual    string `json:"actual"`
+	Forecast  string `json:"forecast"`
+	Previous  string `json:"previous"`
+	Impact    string `json:"impactName"`
+}
+
+type ffDay struct {
+	Events []ffEvent `json:"events"`
+}
+
+type ffComponent struct {
+	Days []ffDay `json:"days"`
+}
+
+type ffActual struct {
+	Date     string
+	Time     string
+	Currency string
+	Actual   string
+	Impact   string
+	Name     string
+}
+
+func extractJSONObject(s string, start int) string {
+	if start >= len(s) || s[start] != '{' {
+		return ""
+	}
+	depth := 0
+	inString := false
+	escaped := false
+	for i := start; i < len(s); i++ {
+		c := s[i]
+		if escaped {
+			escaped = false
+			continue
+		}
+		if c == '\\' && inString {
+			escaped = true
+			continue
+		}
+		if c == '"' {
+			inString = !inString
+			continue
+		}
+		if inString {
+			continue
+		}
+		if c == '{' {
+			depth++
+		} else if c == '}' {
+			depth--
+			if depth == 0 {
+				return s[start : i+1]
+			}
+		}
+	}
+	return ""
+}
+
+func fetchForexFactoryActuals() []ffActual {
+	client := &http.Client{Timeout: 20 * time.Second}
+	req, err := http.NewRequest("GET", "https://www.forexfactory.com/calendar?week=thisweek", nil)
+	if err != nil {
+		log.Printf("[news] forexfactory request error: %v", err)
+		return nil
+	}
+	req.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
+	req.Header.Set("Accept", "text/html,application/xhtml+xml")
+	req.Header.Set("Accept-Language", "en-US,en;q=0.9")
+
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Printf("[news] forexfactory fetch error: %v", err)
+		return nil
+	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil
+	}
+
+	html := string(body)
+
+	marker := "window.calendarComponentStates[1] = "
+	idx := strings.Index(html, marker)
+	if idx < 0 {
+		log.Println("[news] could not find calendarComponentStates in forexfactory response")
+		return nil
+	}
+	jsonStart := idx + len(marker)
+	jsonStr := extractJSONObject(html, jsonStart)
+	if jsonStr == "" {
+		log.Println("[news] could not extract calendar JSON object")
+		return nil
+	}
+
+	var comp ffComponent
+	if err := json.Unmarshal([]byte(jsonStr), &comp); err != nil {
+		log.Printf("[news] forexfactory JSON parse error: %v", err)
+		return nil
+	}
+
+	var results []ffActual
+	for _, day := range comp.Days {
+		for _, ev := range day.Events {
+			if ev.Actual == "" || ev.Actual == "-" {
+				continue
+			}
+			t := time.Unix(ev.Dateline, 0).In(iranLoc)
+			results = append(results, ffActual{
+				Date:     t.Format("2006-01-02"),
+				Time:     t.Format("15:04"),
+				Currency: ev.Currency,
+				Actual:   ev.Actual,
+				Impact:   ev.Impact,
+				Name:     ev.Name,
+			})
+		}
+	}
+
+	log.Printf("[news] fetched %d actuals from forexfactory.com", len(results))
+	return results
+}
+
+func mergeActuals(faireconomy []CalendarEvent, actuals []ffActual) []CalendarEvent {
+	actualMap := make(map[string]string)
+	for _, a := range actuals {
+		key := fmt.Sprintf("%s|%s|%s", a.Date, strings.ToUpper(a.Currency), a.Time)
+		actualMap[key] = a.Actual
+	}
+
+	matched := 0
+	for i := range faireconomy {
+		timeNorm := faireconomy[i].Time
+		if len(timeNorm) >= 4 {
+			key := fmt.Sprintf("%s|%s|%s", faireconomy[i].Date, strings.ToUpper(faireconomy[i].Currency), timeNorm)
+			if actual, ok := actualMap[key]; ok {
+				faireconomy[i].Actual = actual
+				matched++
+			}
+		}
+	}
+
+	return faireconomy
 }
