@@ -168,10 +168,6 @@ type ffDay struct {
 	Events []ffEvent `json:"events"`
 }
 
-type ffComponent struct {
-	Days []ffDay `json:"days"`
-}
-
 type ffActual struct {
 	Date     string
 	Time     string
@@ -208,6 +204,42 @@ func extractJSONObject(s string, start int) string {
 		if c == '{' {
 			depth++
 		} else if c == '}' {
+			depth--
+			if depth == 0 {
+				return s[start : i+1]
+			}
+		}
+	}
+	return ""
+}
+
+func extractJSONArray(s string, start int) string {
+	if start >= len(s) || s[start] != '[' {
+		return ""
+	}
+	depth := 0
+	inString := false
+	escaped := false
+	for i := start; i < len(s); i++ {
+		c := s[i]
+		if escaped {
+			escaped = false
+			continue
+		}
+		if c == '\\' && inString {
+			escaped = true
+			continue
+		}
+		if c == '"' {
+			inString = !inString
+			continue
+		}
+		if inString {
+			continue
+		}
+		if c == '[' {
+			depth++
+		} else if c == ']' {
 			depth--
 			if depth == 0 {
 				return s[start : i+1]
@@ -255,14 +287,28 @@ func fetchForexFactoryActuals() []ffActual {
 		return nil
 	}
 
-	var comp ffComponent
-	if err := json.Unmarshal([]byte(jsonStr), &comp); err != nil {
-		log.Printf("[news] forexfactory JSON parse error: %v", err)
+	// The data is JavaScript object notation (unquoted keys), not valid JSON.
+	// Find the days array directly and parse that instead.
+	daysIdx := strings.Index(jsonStr, "days:[")
+	if daysIdx < 0 {
+		log.Println("[news] could not find days array in calendar data")
+		return nil
+	}
+	arrStart := daysIdx + len("days:")
+	arrJSON := extractJSONArray(jsonStr, arrStart)
+	if arrJSON == "" {
+		log.Println("[news] could not extract days array")
+		return nil
+	}
+
+	var days []ffDay
+	if err := json.Unmarshal([]byte(arrJSON), &days); err != nil {
+		log.Printf("[news] forexfactory days parse error: %v", err)
 		return nil
 	}
 
 	var results []ffActual
-	for _, day := range comp.Days {
+	for _, day := range days {
 		for _, ev := range day.Events {
 			if ev.Actual == "" || ev.Actual == "-" {
 				continue
